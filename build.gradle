@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+task hello << {
+    print 'hello, '
+}
+
+task world(dependsOn: hello) << {
+    println 'world'
+}
+
+task createSchema << {
+    println 'create db schema'
+}
+
+task loadTestData {
+    dependsOn createSchema, compileJava
+    if(tasks.compileJava.didWork) {
+        println 'load test data'
+    }
+}
+
+task setupDatabase << {
+    println 'create tables'
+}
+
+setupDatabase.doFirst {
+    println 'create db schema'
+}
